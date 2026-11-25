@@ -91,7 +91,10 @@ node scripts/verify.mjs --profile t3
   official per-instance branding.
 - The official route to the real logo is listing dsh in the
   [ACP Registry](https://github.com/agentclientprotocol/registry). A submission draft is in
-  `registry-submission/dsh/`. Currently blocked upstream: dsh publishes prerelease versions
+  `registry-submission/dsh/` (monochrome currentColor icon per registry rules).
+  Feature request filed: https://github.com/pingdotgg/t3code/discussions/42779 .
+  A daily watch task auto-submits the registry PR once dsh ships a stable release.
+  Currently blocked upstream: dsh publishes prerelease versions
   only, while the registry schema requires plain semver and auto-follows npm `latest`.
 
 ## Verify / sync / uninstall
