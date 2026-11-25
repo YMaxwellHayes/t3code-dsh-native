@@ -1,0 +1,358 @@
+{
+  "profile": "t3",
+  "startedAt": "2026-11-25T11:22:03.992Z",
+  "finishedAt": "2026-11-25T11:22:08.217Z",
+  "cwd": "/Users/dojo/t3code-dsh-native/tests/t3",
+  "counts": {
+    "PASS": 22,
+    "FAIL": 1,
+    "SKIP": 0
+  },
+  "results": [
+    {
+      "id": "t3.instance",
+      "status": "PASS",
+      "evidence": {
+        "driver": "acpRegistry",
+        "commandPath": "/Users/dojo/.local/bin/dsh",
+        "commandArgs": [
+          "--profile",
+          "t3"
+        ],
+        "accentColor": "#4D6BFE"
+      },
+      "elapsedMs": 0
+    },
+    {
+      "id": "t3.model_preferences",
+      "status": "PASS",
+      "evidence": {
+        "modelOrder": [
+          "[\"deepseek-account\",\"deepseek-flash\"]",
+          "[\"deepseek-official\",\"deepseek-flash\"]",
+          "[\"deepseek-official\",\"deepseek-v4-flash\"]",
+          "[\"deepseek-account\",\"deepseek-v4-pro\"]",
+          "[\"deepseek-official\",\"deepseek-v4-pro\"]"
+        ],
+        "hiddenModels": []
+      },
+      "elapsedMs": 0
+    },
+    {
+      "id": "t3.favorites",
+      "status": "PASS",
+      "evidence": [
+        {
+          "provider": "dsh",
+          "model": "[\"deepseek-account\",\"deepseek-flash\"]"
+        }
+      ],
+      "elapsedMs": 0
+    },
+    {
+      "id": "profile.bundles",
+      "status": "PASS",
+      "evidence": {
+        "acp": "@deepseek-ai/dsh-acp-app",
+        "sharedCount": 16,
+        "pluginCountExcludingBase": 15,
+        "base": "@deepseek-ai/dsh-base",
+        "excludedDesktopBundles": [
+          "@deepseek-ai/dsh-web-app",
+          "@deepseek-harness-tui/dsh-tui"
+        ],
+        "sharedNodeModules": true,
+        "bundles": [
+          "@deepseek-ai/dsh-base",
+          "@deepseek-ai/dsh-acp-app",
+          "@deepseek-ai/dsh-experimental-voice-input-bundle",
+          "@deepseek-ai/dsh-experimental-auto-review",
+          "@deepseek-ai/dsh-experimental-tool-worktree",
+          "@deepseek-ai/dsh-experimental-cot-translation-bundle",
+          "@deepseek-ai/dsh-experimental-terminal-bundle",
+          "@deepseek-ai/dsh-experimental-session-search",
+          "@deepseek-ai/dsh-experimental-session-titles-bundle",
+          "@deepseek-ai/dsh-experimental-badge-skill-bundle",
+          "@deepseek-ai/dsh-experimental-ralph-bundle",
+          "@deepseek-ai/dsh-experimental-plugin-market-bundle",
+          "dshmarket",
+          "billion-context",
+          "@wlv-zedd/dsh-btw-plugin",
+          "dsh-think-translate",
+          "dsh-context"
+        ]
+      },
+      "elapsedMs": 0
+    },
+    {
+      "id": "initialize",
+      "status": "PASS",
+      "evidence": {
+        "protocolVersion": 1,
+        "agentInfo": {
+          "name": "deepseek-harness-acp",
+          "version": "0.0.1"
+        },
+        "sessionCapabilities": {
+          "close": {},
+          "list": {},
+          "resume": {}
+        }
+      },
+      "elapsedMs": 483
+    },
+    {
+      "id": "session/new",
+      "status": "PASS",
+      "evidence": {
+        "sessionId": "b550c757-3f96-4f80-aa92-a43e1d98809a",
+        "configOptions": [
+          {
+            "id": "model",
+            "name": "Model",
+            "category": "model",
+            "type": "select",
+            "currentValue": "[\"deepseek-official\",\"deepseek-v4-flash\"]",
+            "options": [
+              {
+                "group": "deepseek-official",
+                "name": "DeepSeek",
+                "options": [
+                  {
+                    "value": "[\"deepseek-official\",\"deepseek-v4-flash\"]",
+                    "name": "deepseek-v4-flash"
+                  },
+                  {
+                    "value": "[\"deepseek-official\",\"deepseek-flash\"]",
+                    "name": "DeepSeek-V4.1-Flash"
+                  },
+                  {
+                    "value": "[\"deepseek-official\",\"deepseek-v4-pro\"]",
+                    "name": "DeepSeek-V4-Pro",
+                    "description": "Stronger agentic coding, knowledge, and difficult reasoning; suited to complex or quality-critical tasks at higher cost."
+                  }
+                ]
+              },
+              {
+                "group": "deepseek-account",
+                "name": "DeepSeek Account",
+                "options": [
+                  {
+                    "value": "[\"deepseek-account\",\"deepseek-flash\"]",
+                    "name": "DeepSeek-V4.1-Flash"
+                  },
+                  {
+                    "value": "[\"deepseek-account\",\"deepseek-v4-pro\"]",
+                    "name": "DeepSeek-V4-Pro",
+                    "description": "Stronger agentic coding, knowledge, and difficult reasoning; suited to complex or quality-critical tasks at higher cost."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "reasoning_effort",
+            "name": "Reasoning effort",
+            "category": "thought_level",
+            "type": "select",
+            "currentValue": "high",
+            "options": [
+              {
+                "value": "off",
+                "name": "Off",
+                "description": "Use for simple tasks that do not need reasoning."
+              },
+              {
+                "value": "low",
+                "name": "Low",
+                "description": "Prefer for routine or latency-sensitive tasks."
+              },
+              {
+                "value": "high",
+                "name": "High",
+                "description": "The default balance for most tasks."
+              },
+              {
+                "value": "max",
+                "name": "Max",
+                "description": "Reserve for the hardest quality-first tasks."
+              }
+            ]
+          }
+        ]
+      },
+      "elapsedMs": 306
+    },
+    {
+      "id": "configOptions.read",
+      "status": "PASS",
+      "evidence": {
+        "model": "[\"deepseek-official\",\"deepseek-v4-flash\"]",
+        "currentValue": "high",
+        "values": [
+          "off",
+          "low",
+          "high",
+          "max"
+        ]
+      },
+      "elapsedMs": 0
+    },
+    {
+      "id": "configOptions.set_readback",
+      "status": "PASS",
+      "evidence": {
+        "previous": "high",
+        "requested": "off",
+        "readback": "off"
+      },
+      "elapsedMs": 5
+    },
+    {
+      "id": "prompt.turn_1",
+      "status": "PASS",
+      "evidence": {
+        "stopReason": "end_turn",
+        "reply": "dsh-t3-echo",
+        "usageUpdates": 2
+      },
+      "elapsedMs": 1966
+    },
+    {
+      "id": "prompt.turn_2",
+      "status": "PASS",
+      "evidence": {
+        "stopReason": "end_turn",
+        "reply": "OK2",
+        "usageUpdates": 1
+      },
+      "elapsedMs": 579
+    },
+    {
+      "id": "prompt.turn_3",
+      "status": "PASS",
+      "evidence": {
+        "stopReason": "end_turn",
+        "reply": "OK3",
+        "usageUpdates": 1
+      },
+      "elapsedMs": 710
+    },
+    {
+      "id": "prompt.bash_echo",
+      "status": "PASS",
+      "evidence": {
+        "command": "echo dsh-t3-echo",
+        "toolCallId": "call_00_jXgwyhMpbBBazAhhF5MR4598",
+        "status": "completed",
+        "stdout": "dsh-t3-echo"
+      },
+      "elapsedMs": 0
+    },
+    {
+      "id": "prompt.usage_update",
+      "status": "PASS",
+      "evidence": [
+        {
+          "used": 23112,
+          "size": 1000000
+        },
+        {
+          "used": 23137,
+          "size": 1000000
+        }
+      ],
+      "elapsedMs": 0
+    },
+    {
+      "id": "prompt.three_turns",
+      "status": "PASS",
+      "evidence": {
+        "turns": 3
+      },
+      "elapsedMs": 0
+    },
+    {
+      "id": "rpc.unknown_method",
+      "status": "PASS",
+      "evidence": {
+        "code": -32601
+      },
+      "elapsedMs": 1
+    },
+    {
+      "id": "session/close",
+      "status": "PASS",
+      "evidence": {
+        "sessionId": "b550c757-3f96-4f80-aa92-a43e1d98809a"
+      },
+      "elapsedMs": 8
+    },
+    {
+      "id": "session/list",
+      "status": "PASS",
+      "evidence": {
+        "count": 5,
+        "foundSession": "b550c757-3f96-4f80-aa92-a43e1d98809a"
+      },
+      "elapsedMs": 49
+    },
+    {
+      "id": "session/resume",
+      "status": "PASS",
+      "evidence": {
+        "sessionId": "b550c757-3f96-4f80-aa92-a43e1d98809a",
+        "readback": "off",
+        "expected": "off"
+      },
+      "elapsedMs": 12
+    },
+    {
+      "id": "session/resume.readback",
+      "status": "PASS",
+      "evidence": {
+        "readback": "off"
+      },
+      "elapsedMs": 0
+    },
+    {
+      "id": "session/resume.close",
+      "status": "PASS",
+      "evidence": {
+        "sessionId": "b550c757-3f96-4f80-aa92-a43e1d98809a"
+      },
+      "elapsedMs": 0
+    },
+    {
+      "id": "process.stdin_eof",
+      "status": "PASS",
+      "evidence": {
+        "code": 0,
+        "signal": null,
+        "interventions": [],
+        "elapsedMs": 100
+      },
+      "elapsedMs": 100
+    },
+    {
+      "id": "transport.ndjson",
+      "status": "PASS",
+      "evidence": {
+        "nonJsonRpcFrames": 0
+      },
+      "elapsedMs": 0
+    },
+    {
+      "id": "profile.plugin_startup",
+      "status": "FAIL",
+      "detail": "缺少 billion-context 初始化日志",
+      "elapsedMs": 0
+    }
+  ],
+  "pluginLog": [
+    "dsh: warning: 3 entries did not activate",
+    "cot-translation (@deepseek-ai/dsh-experimental-client-ui-cot-translation): pending (waiting for service: sessionController)",
+    "dsh-think-translate (dsh-think-translate): pending (waiting for service: webServer)",
+    "optional-terminal-panel (@deepseek-ai/dsh-terminal-panel): pending (waiting for service: terminalController)"
+  ]
+}

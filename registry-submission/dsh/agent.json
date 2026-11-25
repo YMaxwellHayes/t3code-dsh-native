@@ -1,0 +1,19 @@
+{
+  "_DRAFT_NOTE": "提交稿，尚未提交。阻塞项：registry 要求稳定版号（stable release channel），dsh 目前仅有 prerelease（0.2.2-rc.5）。待 DeepSeek 发布稳定版后，将 version 与 distribution.npx.package 更新为稳定版本号，向 github.com/agentclientprotocol/registry 提 PR（目录 dsh/，含本文件改名 agent.json 与 icon.svg）。合并后 T3 用户可从 Registry 直接添加 dsh，获得官方图标与 T3 托管分发；本地已有二进制可用 Executable override 指向。",
+  "id": "dsh",
+  "name": "DeepSeek Harness",
+  "version": "0.2.2",
+  "description": "DeepSeek Harness (dsh): an open-source agent harness by DeepSeek AI, built on an everything-is-a-plugin architecture. Speaks ACP via the shipped acp profile.",
+  "repository": "https://github.com/deepseek-ai/deepseek-harness",
+  "website": "https://deepseek-harness.github.io/deepseek-harness/",
+  "authors": ["DeepSeek AI"],
+  "license": "MIT",
+  "license_url": "https://github.com/deepseek-ai/deepseek-harness/blob/main/LICENSE",
+  "distribution": {
+    "npx": {
+      "package": "@deepseek-ai/dsh@0.2.2",
+      "args": ["--profile", "acp"]
+    }
+  },
+  "icon": "https://cdn.agentclientprotocol.com/registry/v1/latest/dsh.svg"
+}

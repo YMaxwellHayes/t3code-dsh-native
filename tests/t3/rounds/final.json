@@ -1,0 +1,205 @@
+{
+  "profile": "t3",
+  "startedAt": "2026-11-25T11:18:20.034Z",
+  "finishedAt": "2026-11-25T11:18:20.140Z",
+  "cwd": "/Users/dojo/t3code-dsh-native/tests/t3",
+  "counts": {
+    "PASS": 5,
+    "FAIL": 4,
+    "SKIP": 14
+  },
+  "results": [
+    {
+      "id": "t3.instance",
+      "status": "PASS",
+      "evidence": {
+        "driver": "acpRegistry",
+        "commandPath": "/Users/dojo/.local/bin/dsh",
+        "commandArgs": [
+          "--profile",
+          "t3"
+        ],
+        "accentColor": "#4D6BFE"
+      },
+      "elapsedMs": 1
+    },
+    {
+      "id": "t3.model_preferences",
+      "status": "PASS",
+      "evidence": {
+        "modelOrder": [
+          "[\"deepseek-account\",\"deepseek-flash\"]",
+          "[\"deepseek-official\",\"deepseek-flash\"]",
+          "[\"deepseek-official\",\"deepseek-v4-flash\"]",
+          "[\"deepseek-account\",\"deepseek-v4-pro\"]",
+          "[\"deepseek-official\",\"deepseek-v4-pro\"]"
+        ],
+        "hiddenModels": []
+      },
+      "elapsedMs": 0
+    },
+    {
+      "id": "t3.favorites",
+      "status": "PASS",
+      "evidence": [
+        {
+          "provider": "dsh",
+          "model": "[\"deepseek-account\",\"deepseek-flash\"]"
+        }
+      ],
+      "elapsedMs": 0
+    },
+    {
+      "id": "profile.bundles",
+      "status": "PASS",
+      "evidence": {
+        "acp": "@deepseek-ai/dsh-acp-app",
+        "sharedCount": 16,
+        "pluginCountExcludingBase": 15,
+        "base": "@deepseek-ai/dsh-base",
+        "excludedDesktopBundles": [
+          "@deepseek-ai/dsh-web-app",
+          "@deepseek-harness-tui/dsh-tui"
+        ],
+        "sharedNodeModules": true,
+        "bundles": [
+          "@deepseek-ai/dsh-base",
+          "@deepseek-ai/dsh-acp-app",
+          "@deepseek-ai/dsh-experimental-voice-input-bundle",
+          "@deepseek-ai/dsh-experimental-auto-review",
+          "@deepseek-ai/dsh-experimental-tool-worktree",
+          "@deepseek-ai/dsh-experimental-cot-translation-bundle",
+          "@deepseek-ai/dsh-experimental-terminal-bundle",
+          "@deepseek-ai/dsh-experimental-session-search",
+          "@deepseek-ai/dsh-experimental-session-titles-bundle",
+          "@deepseek-ai/dsh-experimental-badge-skill-bundle",
+          "@deepseek-ai/dsh-experimental-ralph-bundle",
+          "@deepseek-ai/dsh-experimental-plugin-market-bundle",
+          "dshmarket",
+          "billion-context",
+          "@wlv-zedd/dsh-btw-plugin",
+          "dsh-think-translate",
+          "dsh-context"
+        ]
+      },
+      "elapsedMs": 0
+    },
+    {
+      "id": "initialize",
+      "status": "FAIL",
+      "detail": "dsh 退出（code=1, signal=null）",
+      "elapsedMs": 102
+    },
+    {
+      "id": "session/new",
+      "status": "SKIP",
+      "detail": "initialize 未通过",
+      "elapsedMs": 0
+    },
+    {
+      "id": "configOptions.read",
+      "status": "SKIP",
+      "detail": "session/new 未通过",
+      "elapsedMs": 0
+    },
+    {
+      "id": "configOptions.set_readback",
+      "status": "SKIP",
+      "detail": "configOptions.read 未通过",
+      "elapsedMs": 0
+    },
+    {
+      "id": "prompt.turn_1",
+      "status": "SKIP",
+      "detail": "session/new 未通过",
+      "elapsedMs": 0
+    },
+    {
+      "id": "prompt.turn_2",
+      "status": "SKIP",
+      "detail": "session/new 未通过",
+      "elapsedMs": 0
+    },
+    {
+      "id": "prompt.turn_3",
+      "status": "SKIP",
+      "detail": "session/new 未通过",
+      "elapsedMs": 0
+    },
+    {
+      "id": "prompt.bash_echo",
+      "status": "SKIP",
+      "detail": "session/new 未通过",
+      "elapsedMs": 0
+    },
+    {
+      "id": "prompt.usage_update",
+      "status": "SKIP",
+      "detail": "session/new 未通过",
+      "elapsedMs": 0
+    },
+    {
+      "id": "prompt.three_turns",
+      "status": "SKIP",
+      "detail": "session/new 未通过",
+      "elapsedMs": 0
+    },
+    {
+      "id": "rpc.unknown_method",
+      "status": "FAIL",
+      "detail": "dsh 退出（code=1, signal=null）",
+      "elapsedMs": 0
+    },
+    {
+      "id": "session/close",
+      "status": "SKIP",
+      "detail": "session/new 未通过",
+      "elapsedMs": 0
+    },
+    {
+      "id": "session/list",
+      "status": "SKIP",
+      "detail": "session/close 未通过",
+      "elapsedMs": 0
+    },
+    {
+      "id": "session/resume",
+      "status": "SKIP",
+      "detail": "session/close 未通过",
+      "elapsedMs": 0
+    },
+    {
+      "id": "session/resume.readback",
+      "status": "SKIP",
+      "detail": "session/resume 未完成",
+      "elapsedMs": 0
+    },
+    {
+      "id": "session/resume.close",
+      "status": "SKIP",
+      "detail": "session/resume 未完成",
+      "elapsedMs": 0
+    },
+    {
+      "id": "process.stdin_eof",
+      "status": "FAIL",
+      "detail": "stdin EOF 后退出异常 {\"code\":1,\"signal\":null,\"interventions\":[],\"elapsedMs\":0}",
+      "elapsedMs": 1
+    },
+    {
+      "id": "transport.ndjson",
+      "status": "PASS",
+      "evidence": {
+        "nonJsonRpcFrames": 0
+      },
+      "elapsedMs": 0
+    },
+    {
+      "id": "profile.plugin_startup",
+      "status": "FAIL",
+      "detail": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ []\n- [\n-   'cot-translation',\n-   'dsh-think-translate',\n-   'optional-terminal-panel'\n- ]\n",
+      "elapsedMs": 0
+    }
+  ],
+  "pluginLog": []
+}

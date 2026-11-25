@@ -1,0 +1,24 @@
+PASS t3.instance {"driver":"acpRegistry","commandPath":"/Users/dojo/.local/bin/dsh","commandArgs":["--profile","t3"],"accentColor":"#4D6BFE"}
+PASS t3.model_preferences {"modelOrder":["[\"deepseek-account\",\"deepseek-flash\"]","[\"deepseek-official\",\"deepseek-flash\"]","[\"deepseek-official\",\"deepseek-v4-flash\"]","[\"deepseek-account\",\"deepseek-v4-pro\"]","[\"deepseek-official\",\"deepseek-v4-pro\"]"],"hiddenModels":[]}
+PASS t3.favorites [{"provider":"dsh","model":"[\"deepseek-account\",\"deepseek-flash\"]"}]
+PASS profile.bundles {"acp":"@deepseek-ai/dsh-acp-app","sharedCount":16,"pluginCountExcludingBase":15,"base":"@deepseek-ai/dsh-base","excludedDesktopBundles":["@deepseek-ai/dsh-web-app","@deepseek-harness-tui/dsh-tui"],"sharedNodeModules":true,"bundles":["@deepseek-ai/dsh-base","@deepseek-ai/dsh-acp-app","@deepseek-ai/dsh-experimental-voice-input-bundle","@deepseek-ai/dsh-experimental-auto-review","@deepseek-ai/dsh-experimental-tool-worktree","@deepseek-ai/dsh-experimental-cot-translation-bundle","@deepseek-ai/dsh-experimental-terminal-bundle","@deepseek-ai/dsh-experimental-session-search","@deepseek-ai/dsh-experimental-session-titles-bundle","@deepseek-ai/dsh-experimental-badge-skill-bundle","@deepseek-ai/dsh-experimental-ralph-bundle","@deepseek-ai/dsh-experimental-plugin-market-bundle","dshmarket","billion-context","@wlv-zedd/dsh-btw-plugin","dsh-think-translate","dsh-context"]}
+PASS initialize {"protocolVersion":1,"agentInfo":{"name":"deepseek-harness-acp","version":"0.0.1"},"sessionCapabilities":{"close":{},"list":{},"resume":{}}}
+PASS session/new {"sessionId":"8015a8ca-9f70-4a81-b285-06aa0ba60856"}
+PASS configOptions.read {"model":"[\"deepseek-official\",\"deepseek-v4-flash\"]","currentValue":"high","values":["off","low","high","max"]}
+PASS configOptions.set_readback {"previous":"high","requested":"off","readback":"off"}
+PASS prompt.turn_1 {"stopReason":"end_turn","reply":"dsh-t3-echo","usageUpdates":2}
+PASS prompt.turn_2 {"stopReason":"end_turn","reply":"OK2","usageUpdates":1}
+PASS prompt.turn_3 {"stopReason":"end_turn","reply":"OK3","usageUpdates":1}
+PASS prompt.bash_echo {"command":"echo dsh-t3-echo","toolCallId":"call_00_fBGl3ISK8RfOz9afixfI9315","status":"completed","stdout":"dsh-t3-echo"}
+PASS prompt.usage_update [{"used":23305,"size":1000000},{"used":23330,"size":1000000}]
+PASS prompt.three_turns {"turns":3}
+PASS rpc.unknown_method {"code":-32601}
+PASS session/close {"sessionId":"8015a8ca-9f70-4a81-b285-06aa0ba60856"}
+PASS session/list {"count":3,"foundSession":"8015a8ca-9f70-4a81-b285-06aa0ba60856"}
+PASS session/resume {"sessionId":"8015a8ca-9f70-4a81-b285-06aa0ba60856","readback":"off","expected":"off"}
+PASS session/resume.readback {"readback":"off"}
+PASS session/resume.close {"sessionId":"8015a8ca-9f70-4a81-b285-06aa0ba60856"}
+PASS process.stdin_eof {"code":0,"signal":null,"interventions":[],"elapsedMs":96}
+PASS transport.ndjson {"nonJsonRpcFrames":0}
+FAIL profile.plugin_startup 缺少 billion-context 初始化日志
+SUMMARY {"PASS":22,"FAIL":1,"SKIP":0}

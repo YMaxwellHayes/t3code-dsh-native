@@ -1,0 +1,2735 @@
+{
+  "runId": "run-2026-11-25T11-04-27-750Z",
+  "profile": "acp",
+  "startedAt": "2026-11-25T11:04:27.750Z",
+  "durationSeconds": 12,
+  "workdir": "/Users/dojo/t3code-dsh-native/tests",
+  "node": "v22.23.2",
+  "platform": "darwin arm64",
+  "counts": {
+    "PASS": 20,
+    "INFO": 4
+  },
+  "results": [
+    {
+      "id": "T3-01",
+      "name": "T3 settings.json 中 dsh 实例（只读校验）",
+      "status": "PASS",
+      "detail": "driver=acpRegistry source=local commandPath=/Users/dojo/.local/bin/dsh args=--profile t3 profile 存在且含 dsh-acp-app bundle（共 17 个 bundle）",
+      "data": {
+        "commandPath": "/Users/dojo/.local/bin/dsh",
+        "commandArgs": [
+          "--profile",
+          "t3"
+        ],
+        "profile": "t3",
+        "bundles": [
+          "@deepseek-ai/dsh-base",
+          "@deepseek-ai/dsh-acp-app",
+          "@deepseek-ai/dsh-experimental-voice-input-bundle",
+          "@deepseek-ai/dsh-experimental-auto-review",
+          "@deepseek-ai/dsh-experimental-tool-worktree",
+          "@deepseek-ai/dsh-experimental-cot-translation-bundle",
+          "@deepseek-ai/dsh-experimental-terminal-bundle",
+          "@deepseek-ai/dsh-experimental-session-search",
+          "@deepseek-ai/dsh-experimental-session-titles-bundle",
+          "@deepseek-ai/dsh-experimental-badge-skill-bundle",
+          "@deepseek-ai/dsh-experimental-ralph-bundle",
+          "@deepseek-ai/dsh-experimental-plugin-market-bundle",
+          "dshmarket",
+          "billion-context",
+          "@wlv-zedd/dsh-btw-plugin",
+          "dsh-think-translate",
+          "dsh-context"
+        ]
+      }
+    },
+    {
+      "id": "T3-02",
+      "name": "dsh CLI 可用性与版本",
+      "status": "PASS",
+      "detail": "0.2.2-rc.2",
+      "data": {
+        "version": "0.2.2-rc.2"
+      }
+    },
+    {
+      "id": "INIT-01",
+      "name": "initialize 握手",
+      "status": "PASS",
+      "detail": "protocolVersion=1 agent=deepseek-harness-acp@0.0.1 authMethods=[] sessionCaps=close/list/resume image=false http=true",
+      "data": {
+        "protocolVersion": 1,
+        "agentInfo": {
+          "name": "deepseek-harness-acp",
+          "version": "0.0.1"
+        },
+        "agentCapabilities": {
+          "mcpCapabilities": {
+            "http": true
+          },
+          "promptCapabilities": {
+            "image": false,
+            "audio": false,
+            "embeddedContext": false
+          },
+          "sessionCapabilities": {
+            "close": {},
+            "list": {},
+            "resume": {}
+          }
+        },
+        "authMethods": []
+      }
+    },
+    {
+      "id": "INIT-02",
+      "name": "authenticate 空操作可用（无需凭据步骤）",
+      "status": "PASS",
+      "detail": "返回 {}（no-op）"
+    },
+    {
+      "id": "INIT-03",
+      "name": "protocolVersion 协商（请求 2，服务端回落到 1）",
+      "status": "PASS",
+      "detail": "请求 v2 回落为 v1，重复 initialize 幂等",
+      "data": {
+        "requested": 2,
+        "negotiated": 1
+      }
+    },
+    {
+      "id": "SESS-01",
+      "name": "session/new 建会话（带 cwd）",
+      "status": "PASS",
+      "detail": "sessionId=f0789b8b-e485-44c4-abd1-f786e325318b configOptions=2 项 cwd=/Users/dojo/t3code-dsh-native/tests",
+      "data": {
+        "sessionId": "f0789b8b-e485-44c4-abd1-f786e325318b",
+        "configOptionIds": [
+          "model",
+          "reasoning_effort"
+        ]
+      }
+    },
+    {
+      "id": "CFG-01",
+      "name": "configOptions 初始读取（model / reasoning_effort）",
+      "status": "PASS",
+      "detail": "model=deepseek-official/deepseek-v4-flash（2 个 provider 组） reasoning_effort 当前=high 可选=off/low/high/max",
+      "data": {
+        "model": [
+          "deepseek-official",
+          "deepseek-v4-flash"
+        ],
+        "reasoningCurrent": "high",
+        "reasoningValues": [
+          "off",
+          "low",
+          "high",
+          "max"
+        ],
+        "groups": 2
+      }
+    },
+    {
+      "id": "CFG-02",
+      "name": "configOptions 设置（reasoning_effort=low，回读生效）",
+      "status": "PASS",
+      "detail": "reasoning_effort low -> high -> low 均回读正确（原值 high）"
+    },
+    {
+      "id": "CFG-03a",
+      "name": "切换模型后 reasoning_effort 回到 provider 默认（上游行为，非缺陷）",
+      "status": "INFO",
+      "detail": "设置 low 后切到 deepseek-v4-pro，reasoning_effort 变为 high；对应 model-control.ts: set(model) 使用不含 reasoningEffort 的 selection"
+    },
+    {
+      "id": "CFG-03b",
+      "name": "无法切回初始模型（模型目录中不含它，仅作为当前值被注入选项）",
+      "status": "INFO",
+      "detail": "切回 [\"deepseek-official\",\"deepseek-v4-flash\"] 返回 code=-32602 Invalid params: unknown model option: [\"deepseek-official\",\"deepseek-v4-flash\"]；切换后 model 可选项=[\"[\\\"deepseek-official\\\",\\\"deepseek-flash\\\"]\",\"[\\\"deepseek-official\\\",\\\"deepseek-v4-pro\\\"]\",\"[\\\"deepseek-account\\\",\\\"deepseek-flash\\\"]\",\"[\\\"deepseek-account\\\",\\\"deepseek-v4-pro\\\"]\"]"
+    },
+    {
+      "id": "CFG-03",
+      "name": "模型切换行为探测（可选项、reasoning 重置、能否切回）",
+      "status": "PASS",
+      "detail": "初始 model=[\"deepseek-official\",\"deepseek-v4-flash\"] reasoning=high；切到 deepseek-v4-pro 成功，reasoning 重置为 high；切回初始模型被拒 code=-32602",
+      "data": {
+        "base": {
+          "model": "[\"deepseek-official\",\"deepseek-v4-flash\"]",
+          "reasoning": "high",
+          "values": [
+            "[\"deepseek-official\",\"deepseek-v4-flash\"]",
+            "[\"deepseek-official\",\"deepseek-flash\"]",
+            "[\"deepseek-official\",\"deepseek-v4-pro\"]",
+            "[\"deepseek-account\",\"deepseek-flash\"]",
+            "[\"deepseek-account\",\"deepseek-v4-pro\"]"
+          ]
+        },
+        "afterSwitch": {
+          "model": "[\"deepseek-official\",\"deepseek-v4-pro\"]",
+          "reasoning": "high",
+          "values": [
+            "[\"deepseek-official\",\"deepseek-flash\"]",
+            "[\"deepseek-official\",\"deepseek-v4-pro\"]",
+            "[\"deepseek-account\",\"deepseek-flash\"]",
+            "[\"deepseek-account\",\"deepseek-v4-pro\"]"
+          ]
+        },
+        "back": {
+          "ok": false,
+          "code": -32602,
+          "message": "Invalid params: unknown model option: [\"deepseek-official\",\"deepseek-v4-flash\"]"
+        }
+      }
+    },
+    {
+      "id": "USAGE-01",
+      "name": "usage_update 出现且字段合法",
+      "status": "INFO",
+      "detail": "used=15885 size=1000000（本轮共 2 条）"
+    },
+    {
+      "id": "PROMPT-01",
+      "name": "真实回合：bash 工具执行 echo，校验 tool_call/tool_call_update 流",
+      "status": "PASS",
+      "detail": "stopReason=end_turn；tool_call(bash) -> tool_call_update(completed，含 DSH_ACP_OK)；assistant 文本含 DSH_ACP_OK；耗时 2011ms；更新 5 条",
+      "data": {
+        "toolTitle": "bash",
+        "toolCallId": "call_00_ET_9OIwTqlwe2YPF379Jhuh5490",
+        "toolInput": {
+          "description": "Run echo command",
+          "command": "echo DSH_ACP_OK"
+        },
+        "updateKinds": [
+          "usage_update",
+          "tool_call",
+          "tool_call_update",
+          "agent_message_chunk",
+          "usage_update"
+        ],
+        "usage": [
+          {
+            "used": 15885,
+            "size": 1000000
+          },
+          {
+            "used": 15909,
+            "size": 1000000
+          }
+        ],
+        "ms": 2011
+      }
+    },
+    {
+      "id": "CONC-01",
+      "name": "并发 prompt 被拒（-32602），随后取消收尾",
+      "status": "PASS",
+      "detail": "并发请求被拒：code=-32602 msg=\"Invalid params: a prompt is already in flight for this session\"；首个 prompt 收尾 stopReason=cancelled"
+    },
+    {
+      "id": "CANCEL-01",
+      "name": "session/cancel 中断进行中的回合（长耗时 bash 工具）",
+      "status": "PASS",
+      "detail": "cancel 后 stopReason=cancelled，tool_call_update=failed，响应 1567ms"
+    },
+    {
+      "id": "ERR-01",
+      "name": "错误处理：非法方法 / 未知会话 / 非法 config / 空 prompt 等",
+      "status": "PASS",
+      "detail": "15/15 项均返回预期 JSON-RPC 错误码（非法方法=-32601，prompt 未知会话=-32602，未知 configId=-32602，非法 reasoning_effort 值=-32602，空 prompt=-32602，session/new 相对 cwd=-32602，session/new additionalDirectories=-32602，session/new 非法 MCP server=-32602，图片 prompt（image 能力为 false）=-32602，未知会话 close=-32602，session/list 非法 cursor=-32602，session/resume 未知会话=-32602，session/new 缺 mcpServers=-32602，session/new 缺 cwd=-32602，session/resume 缺 cwd=-32602）",
+      "data": [
+        {
+          "label": "非法方法",
+          "ok": true,
+          "code": -32601,
+          "detail": "code=-32601 msg=\"Method not found\": session/does_not_exist"
+        },
+        {
+          "label": "prompt 未知会话",
+          "ok": true,
+          "code": -32602,
+          "detail": "code=-32602 msg=Invalid params: unknown session: 00000000-0000-4000-8000-000000000000"
+        },
+        {
+          "label": "未知 configId",
+          "ok": true,
+          "code": -32602,
+          "detail": "code=-32602 msg=Invalid params: unknown session config option: no_such_option"
+        },
+        {
+          "label": "非法 reasoning_effort 值",
+          "ok": true,
+          "code": -32602,
+          "detail": "code=-32602 msg=Invalid params: unknown reasoning effort for deepseek-official/deepseek-v4-flash: ultra-max"
+        },
+        {
+          "label": "空 prompt",
+          "ok": true,
+          "code": -32602,
+          "detail": "code=-32602 msg=Invalid params: empty prompt"
+        },
+        {
+          "label": "session/new 相对 cwd",
+          "ok": true,
+          "code": -32602,
+          "detail": "code=-32602 msg=Invalid params: cwd must be an absolute path: relative/path"
+        },
+        {
+          "label": "session/new additionalDirectories",
+          "ok": true,
+          "code": -32602,
+          "detail": "code=-32602 msg=Invalid params: additionalDirectories is not supported"
+        },
+        {
+          "label": "session/new 非法 MCP server",
+          "ok": true,
+          "code": -32602,
+          "detail": "code=-32602 msg=Invalid params: mcpServers[0] transport sse is not supported"
+        },
+        {
+          "label": "图片 prompt（image 能力为 false）",
+          "ok": true,
+          "code": -32602,
+          "detail": "code=-32602 msg=Invalid params: inline image prompts were not advertised by this connection"
+        },
+        {
+          "label": "未知会话 close",
+          "ok": true,
+          "code": -32602,
+          "detail": "code=-32602 msg=Invalid params: unknown session: 00000000-0000-4000-8000-000000000000"
+        },
+        {
+          "label": "session/list 非法 cursor",
+          "ok": true,
+          "code": -32602,
+          "detail": "code=-32602 msg=Invalid params: session/list cursor is invalid"
+        },
+        {
+          "label": "session/resume 未知会话",
+          "ok": true,
+          "code": -32602,
+          "detail": "code=-32602 msg=Invalid params: session is not resumable: 00000000-0000-4000-8000-000000000000"
+        },
+        {
+          "label": "session/new 缺 mcpServers",
+          "ok": true,
+          "code": -32602,
+          "detail": "code=-32602 msg=Invalid params"
+        },
+        {
+          "label": "session/new 缺 cwd",
+          "ok": true,
+          "code": -32602,
+          "detail": "code=-32602 msg=Invalid params"
+        },
+        {
+          "label": "session/resume 缺 cwd",
+          "ok": true,
+          "code": -32602,
+          "detail": "code=-32602 msg=Invalid params"
+        }
+      ]
+    },
+    {
+      "id": "SESS-02",
+      "name": "session/close 关闭会话",
+      "status": "PASS",
+      "detail": "返回 {}"
+    },
+    {
+      "id": "LIST-01",
+      "name": "session/list（cwd 过滤，已关闭会话可见）",
+      "status": "PASS",
+      "detail": "目标会话在列表中，cwd=/Users/dojo/t3code-dsh-native/tests；按 cwd 过滤返回 92 条，nextCursor=无",
+      "data": {
+        "count": 92,
+        "hasNextCursor": false
+      }
+    },
+    {
+      "id": "LIST-02",
+      "name": "跨 profile 会话可见性（共享 ~/.dsh/sessions）",
+      "status": "INFO",
+      "detail": "acp profile 创建的会话在 t3 profile 的 list 中可见（名单 93 条）；含义：T3 的会话列表也会包含同一 cwd 下由桌面客户端等其它 profile 创建的会话"
+    },
+    {
+      "id": "LIST-02",
+      "name": "跨 profile 会话可见性（acp 建的会话在 t3 profile 可见）",
+      "status": "PASS",
+      "detail": "acp→t3 会话可见（2e73f00b-4f4d-42d2-9ca2-16f40c5643a5）"
+    },
+    {
+      "id": "RESUME-01",
+      "name": "session/resume 恢复已关闭会话",
+      "status": "PASS",
+      "detail": "resume 成功，configOptions 2 项，reasoning_effort 保持 low"
+    },
+    {
+      "id": "RESUME-02",
+      "name": "resume 后上下文连续性（回忆上一轮 bash echo 的字符串）",
+      "status": "PASS",
+      "detail": "恢复后回忆到此前命令（命中 DSH_ACP_OK/SLEPT_DONE/CONC_DONE）；耗时 1245ms",
+      "data": {
+        "ms": 1245,
+        "hits": [
+          "DSH_ACP_OK",
+          "SLEPT_DONE",
+          "CONC_DONE"
+        ],
+        "reply": "echo DSH_ACP_OK\nsleep 20; echo CONC_DONE\nsleep 30; echo SLEPT_DONE"
+      }
+    },
+    {
+      "id": "EXIT-01",
+      "name": "关闭 stdin 后 dsh 正常退出",
+      "status": "PASS",
+      "detail": "退出码 0（signal=无）"
+    },
+    {
+      "id": "T3-03",
+      "name": "端到端：按 T3 settings 的 commandArgs 启动并完成一个最小回合（只读）",
+      "status": "PASS",
+      "detail": "按 --profile t3 启动成功；model=[\"deepseek-official\",\"deepseek-v4-flash\"] reasoning=high；最小回合 end_turn，回复含 T3_E2E_OK（1478ms）",
+      "data": {
+        "model": "[\"deepseek-official\",\"deepseek-v4-flash\"]",
+        "reasoningCurrent": "high",
+        "ms": 1478
+      }
+    }
+  ],
+  "frames": [
+    {
+      "dir": "out",
+      "t": 1795604667844,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 1,
+        "method": "initialize",
+        "params": {
+          "protocolVersion": 1,
+          "clientCapabilities": {
+            "fs": {
+              "readTextFile": false,
+              "writeTextFile": false
+            },
+            "terminal": false
+          }
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604668203,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 1,
+        "result": {
+          "protocolVersion": 1,
+          "agentInfo": {
+            "name": "deepseek-harness-acp",
+            "version": "0.0.1"
+          },
+          "agentCapabilities": {
+            "mcpCapabilities": {
+              "http": true
+            },
+            "promptCapabilities": {
+              "image": false,
+              "audio": false,
+              "embeddedContext": false
+            },
+            "sessionCapabilities": {
+              "close": {},
+              "list": {},
+              "resume": {}
+            }
+          },
+          "authMethods": []
+        }
+      }
+    },
+    {
+      "dir": "out",
+      "t": 1795604668204,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 2,
+        "method": "authenticate",
+        "params": {
+          "methodId": "noop"
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604668204,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 2,
+        "result": {}
+      }
+    },
+    {
+      "dir": "out",
+      "t": 1795604668204,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 3,
+        "method": "initialize",
+        "params": {
+          "protocolVersion": 2,
+          "clientCapabilities": {}
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604668208,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 3,
+        "result": {
+          "protocolVersion": 1,
+          "agentInfo": {
+            "name": "deepseek-harness-acp",
+            "version": "0.0.1"
+          },
+          "agentCapabilities": {
+            "mcpCapabilities": {
+              "http": true
+            },
+            "promptCapabilities": {
+              "image": false,
+              "audio": false,
+              "embeddedContext": false
+            },
+            "sessionCapabilities": {
+              "close": {},
+              "list": {},
+              "resume": {}
+            }
+          },
+          "authMethods": []
+        }
+      }
+    },
+    {
+      "dir": "out",
+      "t": 1795604668208,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 4,
+        "method": "initialize",
+        "params": {
+          "protocolVersion": 1,
+          "clientCapabilities": {}
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604668536,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 4,
+        "result": {
+          "protocolVersion": 1,
+          "agentInfo": {
+            "name": "deepseek-harness-acp",
+            "version": "0.0.1"
+          },
+          "agentCapabilities": {
+            "mcpCapabilities": {
+              "http": true
+            },
+            "promptCapabilities": {
+              "image": false,
+              "audio": false,
+              "embeddedContext": false
+            },
+            "sessionCapabilities": {
+              "close": {},
+              "list": {},
+              "resume": {}
+            }
+          },
+          "authMethods": []
+        }
+      }
+    },
+    {
+      "dir": "out",
+      "t": 1795604668536,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 5,
+        "method": "session/new",
+        "params": {
+          "cwd": "/Users/dojo/t3code-dsh-native/tests",
+          "mcpServers": []
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604668927,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 5,
+        "result": {
+          "sessionId": "f0789b8b-e485-44c4-abd1-f786e325318b",
+          "configOptions": [
+            {
+              "id": "model",
+              "name": "Model",
+              "category": "model",
+              "type": "select",
+              "currentValue": "[\"deepseek-official\",\"deepseek-v4-flash\"]",
+              "options": [
+                {
+                  "group": "deepseek-official",
+                  "name": "DeepSeek",
+                  "options": [
+                    {
+                      "value": "[\"deepseek-official\",\"deepseek-v4-flash\"]",
+                      "name": "deepseek-v4-flash"
+                    },
+                    {
+                      "value": "[\"deepseek-official\",\"deepseek-flash\"]",
+                      "name": "DeepSeek-V4.1-Flash"
+                    },
+                    {
+                      "value": "[\"deepseek-official\",\"deepseek-v4-pro\"]",
+                      "name": "DeepSeek-V4-Pro",
+                      "description": "Stronger agentic coding, knowledge, and difficult reasoning; suited to complex or quality-critical tasks at higher cost."
+                    }
+                  ]
+                },
+                {
+                  "group": "deepseek-account",
+                  "name": "DeepSeek Account",
+                  "options": [
+                    {
+                      "value": "[\"deepseek-account\",\"deepseek-flash\"]",
+                      "name": "DeepSeek-V4.1-Flash"
+                    },
+                    {
+                      "value": "[\"deepseek-account\",\"deepseek-v4-pro\"]",
+                      "name": "DeepSeek-V4-Pro",
+                      "description": "Stronger agentic coding, knowledge, and difficult reasoning; suited to complex or quality-critical tasks at higher cost."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "reasoning_effort",
+              "name": "Reasoning effort",
+              "category": "thought_level",
+              "type": "select",
+              "currentValue": "high",
+              "options": [
+                {
+                  "value": "off",
+                  "name": "Off",
+                  "description": "Use for simple tasks that do not need reasoning."
+                },
+                {
+                  "value": "low",
+                  "name": "Low",
+                  "description": "Prefer for routine or latency-sensitive tasks."
+                },
+                {
+                  "value": "high",
+                  "name": "High",
+                  "description": "The default balance for most tasks."
+                },
+                {
+                  "value": "max",
+                  "name": "Max",
+                  "description": "Reserve for the hardest quality-first tasks."
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "dir": "out",
+      "t": 1795604668929,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 6,
+        "method": "session/set_config_option",
+        "params": {
+          "sessionId": "f0789b8b-e485-44c4-abd1-f786e325318b",
+          "configId": "reasoning_effort",
+          "value": "low"
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604668932,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 6,
+        "result": {
+          "configOptions": [
+            {
+              "id": "model",
+              "name": "Model",
+              "category": "model",
+              "type": "select",
+              "currentValue": "[\"deepseek-official\",\"deepseek-v4-flash\"]",
+              "options": [
+                {
+                  "group": "deepseek-official",
+                  "name": "DeepSeek",
+                  "options": [
+                    {
+                      "value": "[\"deepseek-official\",\"deepseek-v4-flash\"]",
+                      "name": "deepseek-v4-flash"
+                    },
+                    {
+                      "value": "[\"deepseek-official\",\"deepseek-flash\"]",
+                      "name": "DeepSeek-V4.1-Flash"
+                    },
+                    {
+                      "value": "[\"deepseek-official\",\"deepseek-v4-pro\"]",
+                      "name": "DeepSeek-V4-Pro",
+                      "description": "Stronger agentic coding, knowledge, and difficult reasoning; suited to complex or quality-critical tasks at higher cost."
+                    }
+                  ]
+                },
+                {
+                  "group": "deepseek-account",
+                  "name": "DeepSeek Account",
+                  "options": [
+                    {
+                      "value": "[\"deepseek-account\",\"deepseek-flash\"]",
+                      "name": "DeepSeek-V4.1-Flash"
+                    },
+                    {
+                      "value": "[\"deepseek-account\",\"deepseek-v4-pro\"]",
+                      "name": "DeepSeek-V4-Pro",
+                      "description": "Stronger agentic coding, knowledge, and difficult reasoning; suited to complex or quality-critical tasks at higher cost."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "reasoning_effort",
+              "name": "Reasoning effort",
+              "category": "thought_level",
+              "type": "select",
+              "currentValue": "low",
+              "options": [
+                {
+                  "value": "off",
+                  "name": "Off",
+                  "description": "Use for simple tasks that do not need reasoning."
+                },
+                {
+                  "value": "low",
+                  "name": "Low",
+                  "description": "Prefer for routine or latency-sensitive tasks."
+                },
+                {
+                  "value": "high",
+                  "name": "High",
+                  "description": "The default balance for most tasks."
+                },
+                {
+                  "value": "max",
+                  "name": "Max",
+                  "description": "Reserve for the hardest quality-first tasks."
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "dir": "out",
+      "t": 1795604668932,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 7,
+        "method": "session/set_config_option",
+        "params": {
+          "sessionId": "f0789b8b-e485-44c4-abd1-f786e325318b",
+          "configId": "reasoning_effort",
+          "value": "high"
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604668934,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 7,
+        "result": {
+          "configOptions": [
+            {
+              "id": "model",
+              "name": "Model",
+              "category": "model",
+              "type": "select",
+              "currentValue": "[\"deepseek-official\",\"deepseek-v4-flash\"]",
+              "options": [
+                {
+                  "group": "deepseek-official",
+                  "name": "DeepSeek",
+                  "options": [
+                    {
+                      "value": "[\"deepseek-official\",\"deepseek-v4-flash\"]",
+                      "name": "deepseek-v4-flash"
+                    },
+                    {
+                      "value": "[\"deepseek-official\",\"deepseek-flash\"]",
+                      "name": "DeepSeek-V4.1-Flash"
+                    },
+                    {
+                      "value": "[\"deepseek-official\",\"deepseek-v4-pro\"]",
+                      "name": "DeepSeek-V4-Pro",
+                      "description": "Stronger agentic coding, knowledge, and difficult reasoning; suited to complex or quality-critical tasks at higher cost."
+                    }
+                  ]
+                },
+                {
+                  "group": "deepseek-account",
+                  "name": "DeepSeek Account",
+                  "options": [
+                    {
+                      "value": "[\"deepseek-account\",\"deepseek-flash\"]",
+                      "name": "DeepSeek-V4.1-Flash"
+                    },
+                    {
+                      "value": "[\"deepseek-account\",\"deepseek-v4-pro\"]",
+                      "name": "DeepSeek-V4-Pro",
+                      "description": "Stronger agentic coding, knowledge, and difficult reasoning; suited to complex or quality-critical tasks at higher cost."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "reasoning_effort",
+              "name": "Reasoning effort",
+              "category": "thought_level",
+              "type": "select",
+              "currentValue": "high",
+              "options": [
+                {
+                  "value": "off",
+                  "name": "Off",
+                  "description": "Use for simple tasks that do not need reasoning."
+                },
+                {
+                  "value": "low",
+                  "name": "Low",
+                  "description": "Prefer for routine or latency-sensitive tasks."
+                },
+                {
+                  "value": "high",
+                  "name": "High",
+                  "description": "The default balance for most tasks."
+                },
+                {
+                  "value": "max",
+                  "name": "Max",
+                  "description": "Reserve for the hardest quality-first tasks."
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "dir": "out",
+      "t": 1795604668934,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 8,
+        "method": "session/set_config_option",
+        "params": {
+          "sessionId": "f0789b8b-e485-44c4-abd1-f786e325318b",
+          "configId": "reasoning_effort",
+          "value": "low"
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604668935,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 8,
+        "result": {
+          "configOptions": [
+            {
+              "id": "model",
+              "name": "Model",
+              "category": "model",
+              "type": "select",
+              "currentValue": "[\"deepseek-official\",\"deepseek-v4-flash\"]",
+              "options": [
+                {
+                  "group": "deepseek-official",
+                  "name": "DeepSeek",
+                  "options": [
+                    {
+                      "value": "[\"deepseek-official\",\"deepseek-v4-flash\"]",
+                      "name": "deepseek-v4-flash"
+                    },
+                    {
+                      "value": "[\"deepseek-official\",\"deepseek-flash\"]",
+                      "name": "DeepSeek-V4.1-Flash"
+                    },
+                    {
+                      "value": "[\"deepseek-official\",\"deepseek-v4-pro\"]",
+                      "name": "DeepSeek-V4-Pro",
+                      "description": "Stronger agentic coding, knowledge, and difficult reasoning; suited to complex or quality-critical tasks at higher cost."
+                    }
+                  ]
+                },
+                {
+                  "group": "deepseek-account",
+                  "name": "DeepSeek Account",
+                  "options": [
+                    {
+                      "value": "[\"deepseek-account\",\"deepseek-flash\"]",
+                      "name": "DeepSeek-V4.1-Flash"
+                    },
+                    {
+                      "value": "[\"deepseek-account\",\"deepseek-v4-pro\"]",
+                      "name": "DeepSeek-V4-Pro",
+                      "description": "Stronger agentic coding, knowledge, and difficult reasoning; suited to complex or quality-critical tasks at higher cost."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "reasoning_effort",
+              "name": "Reasoning effort",
+              "category": "thought_level",
+              "type": "select",
+              "currentValue": "low",
+              "options": [
+                {
+                  "value": "off",
+                  "name": "Off",
+                  "description": "Use for simple tasks that do not need reasoning."
+                },
+                {
+                  "value": "low",
+                  "name": "Low",
+                  "description": "Prefer for routine or latency-sensitive tasks."
+                },
+                {
+                  "value": "high",
+                  "name": "High",
+                  "description": "The default balance for most tasks."
+                },
+                {
+                  "value": "max",
+                  "name": "Max",
+                  "description": "Reserve for the hardest quality-first tasks."
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "dir": "out",
+      "t": 1795604668936,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 9,
+        "method": "session/new",
+        "params": {
+          "cwd": "/Users/dojo/t3code-dsh-native/tests",
+          "mcpServers": []
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604668961,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 9,
+        "result": {
+          "sessionId": "daa11e26-034d-4ba2-99d6-04d5f69fbd09",
+          "configOptions": [
+            {
+              "id": "model",
+              "name": "Model",
+              "category": "model",
+              "type": "select",
+              "currentValue": "[\"deepseek-official\",\"deepseek-v4-flash\"]",
+              "options": [
+                {
+                  "group": "deepseek-official",
+                  "name": "DeepSeek",
+                  "options": [
+                    {
+                      "value": "[\"deepseek-official\",\"deepseek-v4-flash\"]",
+                      "name": "deepseek-v4-flash"
+                    },
+                    {
+                      "value": "[\"deepseek-official\",\"deepseek-flash\"]",
+                      "name": "DeepSeek-V4.1-Flash"
+                    },
+                    {
+                      "value": "[\"deepseek-official\",\"deepseek-v4-pro\"]",
+                      "name": "DeepSeek-V4-Pro",
+                      "description": "Stronger agentic coding, knowledge, and difficult reasoning; suited to complex or quality-critical tasks at higher cost."
+                    }
+                  ]
+                },
+                {
+                  "group": "deepseek-account",
+                  "name": "DeepSeek Account",
+                  "options": [
+                    {
+                      "value": "[\"deepseek-account\",\"deepseek-flash\"]",
+                      "name": "DeepSeek-V4.1-Flash"
+                    },
+                    {
+                      "value": "[\"deepseek-account\",\"deepseek-v4-pro\"]",
+                      "name": "DeepSeek-V4-Pro",
+                      "description": "Stronger agentic coding, knowledge, and difficult reasoning; suited to complex or quality-critical tasks at higher cost."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "reasoning_effort",
+              "name": "Reasoning effort",
+              "category": "thought_level",
+              "type": "select",
+              "currentValue": "high",
+              "options": [
+                {
+                  "value": "off",
+                  "name": "Off",
+                  "description": "Use for simple tasks that do not need reasoning."
+                },
+                {
+                  "value": "low",
+                  "name": "Low",
+                  "description": "Prefer for routine or latency-sensitive tasks."
+                },
+                {
+                  "value": "high",
+                  "name": "High",
+                  "description": "The default balance for most tasks."
+                },
+                {
+                  "value": "max",
+                  "name": "Max",
+                  "description": "Reserve for the hardest quality-first tasks."
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "dir": "out",
+      "t": 1795604668961,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 10,
+        "method": "session/set_config_option",
+        "params": {
+          "sessionId": "daa11e26-034d-4ba2-99d6-04d5f69fbd09",
+          "configId": "reasoning_effort",
+          "value": "low"
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604668962,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 10,
+        "result": {
+          "configOptions": [
+            {
+              "id": "model",
+              "name": "Model",
+              "category": "model",
+              "type": "select",
+              "currentValue": "[\"deepseek-official\",\"deepseek-v4-flash\"]",
+              "options": [
+                {
+                  "group": "deepseek-official",
+                  "name": "DeepSeek",
+                  "options": [
+                    {
+                      "value": "[\"deepseek-official\",\"deepseek-v4-flash\"]",
+                      "name": "deepseek-v4-flash"
+                    },
+                    {
+                      "value": "[\"deepseek-official\",\"deepseek-flash\"]",
+                      "name": "DeepSeek-V4.1-Flash"
+                    },
+                    {
+                      "value": "[\"deepseek-official\",\"deepseek-v4-pro\"]",
+                      "name": "DeepSeek-V4-Pro",
+                      "description": "Stronger agentic coding, knowledge, and difficult reasoning; suited to complex or quality-critical tasks at higher cost."
+                    }
+                  ]
+                },
+                {
+                  "group": "deepseek-account",
+                  "name": "DeepSeek Account",
+                  "options": [
+                    {
+                      "value": "[\"deepseek-account\",\"deepseek-flash\"]",
+                      "name": "DeepSeek-V4.1-Flash"
+                    },
+                    {
+                      "value": "[\"deepseek-account\",\"deepseek-v4-pro\"]",
+                      "name": "DeepSeek-V4-Pro",
+                      "description": "Stronger agentic coding, knowledge, and difficult reasoning; suited to complex or quality-critical tasks at higher cost."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "reasoning_effort",
+              "name": "Reasoning effort",
+              "category": "thought_level",
+              "type": "select",
+              "currentValue": "low",
+              "options": [
+                {
+                  "value": "off",
+                  "name": "Off",
+                  "description": "Use for simple tasks that do not need reasoning."
+                },
+                {
+                  "value": "low",
+                  "name": "Low",
+                  "description": "Prefer for routine or latency-sensitive tasks."
+                },
+                {
+                  "value": "high",
+                  "name": "High",
+                  "description": "The default balance for most tasks."
+                },
+                {
+                  "value": "max",
+                  "name": "Max",
+                  "description": "Reserve for the hardest quality-first tasks."
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "dir": "out",
+      "t": 1795604668962,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 11,
+        "method": "session/set_config_option",
+        "params": {
+          "sessionId": "daa11e26-034d-4ba2-99d6-04d5f69fbd09",
+          "configId": "model",
+          "value": "[\"deepseek-official\",\"deepseek-v4-pro\"]"
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604668963,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 11,
+        "result": {
+          "configOptions": [
+            {
+              "id": "model",
+              "name": "Model",
+              "category": "model",
+              "type": "select",
+              "currentValue": "[\"deepseek-official\",\"deepseek-v4-pro\"]",
+              "options": [
+                {
+                  "group": "deepseek-official",
+                  "name": "DeepSeek",
+                  "options": [
+                    {
+                      "value": "[\"deepseek-official\",\"deepseek-flash\"]",
+                      "name": "DeepSeek-V4.1-Flash"
+                    },
+                    {
+                      "value": "[\"deepseek-official\",\"deepseek-v4-pro\"]",
+                      "name": "DeepSeek-V4-Pro",
+                      "description": "Stronger agentic coding, knowledge, and difficult reasoning; suited to complex or quality-critical tasks at higher cost."
+                    }
+                  ]
+                },
+                {
+                  "group": "deepseek-account",
+                  "name": "DeepSeek Account",
+                  "options": [
+                    {
+                      "value": "[\"deepseek-account\",\"deepseek-flash\"]",
+                      "name": "DeepSeek-V4.1-Flash"
+                    },
+                    {
+                      "value": "[\"deepseek-account\",\"deepseek-v4-pro\"]",
+                      "name": "DeepSeek-V4-Pro",
+                      "description": "Stronger agentic coding, knowledge, and difficult reasoning; suited to complex or quality-critical tasks at higher cost."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "reasoning_effort",
+              "name": "Reasoning effort",
+              "category": "thought_level",
+              "type": "select",
+              "currentValue": "high",
+              "options": [
+                {
+                  "value": "off",
+                  "name": "Off",
+                  "description": "Use for simple tasks that do not need reasoning."
+                },
+                {
+                  "value": "low",
+                  "name": "Low",
+                  "description": "Prefer for routine or latency-sensitive tasks."
+                },
+                {
+                  "value": "high",
+                  "name": "High",
+                  "description": "The default balance for most tasks."
+                },
+                {
+                  "value": "max",
+                  "name": "Max",
+                  "description": "Reserve for the hardest quality-first tasks."
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "dir": "out",
+      "t": 1795604668963,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 12,
+        "method": "session/set_config_option",
+        "params": {
+          "sessionId": "daa11e26-034d-4ba2-99d6-04d5f69fbd09",
+          "configId": "model",
+          "value": "[\"deepseek-official\",\"deepseek-v4-flash\"]"
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604668964,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 12,
+        "error": {
+          "code": -32602,
+          "message": "Invalid params: unknown model option: [\"deepseek-official\",\"deepseek-v4-flash\"]"
+        }
+      }
+    },
+    {
+      "dir": "out",
+      "t": 1795604668964,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 13,
+        "method": "session/close",
+        "params": {
+          "sessionId": "daa11e26-034d-4ba2-99d6-04d5f69fbd09"
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604668976,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 13,
+        "result": {}
+      }
+    },
+    {
+      "dir": "out",
+      "t": 1795604668976,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 14,
+        "method": "session/prompt",
+        "params": {
+          "sessionId": "f0789b8b-e485-44c4-abd1-f786e325318b",
+          "prompt": [
+            {
+              "type": "text",
+              "text": "只执行一步：调用 bash 工具运行命令 `echo DSH_ACP_OK`，然后原样回复该命令的输出。不要解释。"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604669785,
+      "msg": {
+        "jsonrpc": "2.0",
+        "method": "session/update",
+        "params": {
+          "sessionId": "f0789b8b-e485-44c4-abd1-f786e325318b",
+          "update": {
+            "sessionUpdate": "usage_update",
+            "used": 15885,
+            "size": 1000000
+          }
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604669786,
+      "msg": {
+        "jsonrpc": "2.0",
+        "method": "session/update",
+        "params": {
+          "sessionId": "f0789b8b-e485-44c4-abd1-f786e325318b",
+          "update": {
+            "sessionUpdate": "tool_call",
+            "toolCallId": "call_00_ET_9OIwTqlwe2YPF379Jhuh5490",
+            "title": "bash",
+            "kind": "other",
+            "status": "in_progress",
+            "rawInput": {
+              "description": "Run echo command",
+              "command": "echo DSH_ACP_OK"
+            }
+          }
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604669818,
+      "msg": {
+        "jsonrpc": "2.0",
+        "method": "session/update",
+        "params": {
+          "sessionId": "f0789b8b-e485-44c4-abd1-f786e325318b",
+          "update": {
+            "sessionUpdate": "tool_call_update",
+            "toolCallId": "call_00_ET_9OIwTqlwe2YPF379Jhuh5490",
+            "status": "completed",
+            "content": [
+              {
+                "type": "content",
+                "content": {
+                  "type": "text",
+                  "text": "DSH_ACP_OK\n"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604670769,
+      "msg": {
+        "jsonrpc": "2.0",
+        "method": "session/update",
+        "params": {
+          "sessionId": "f0789b8b-e485-44c4-abd1-f786e325318b",
+          "update": {
+            "sessionUpdate": "agent_message_chunk",
+            "messageId": "467e5c29-7bdd-47c4-ab64-584922c52b50",
+            "content": {
+              "type": "text",
+              "text": "DSH_ACP_OK"
+            }
+          }
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604670769,
+      "msg": {
+        "jsonrpc": "2.0",
+        "method": "session/update",
+        "params": {
+          "sessionId": "f0789b8b-e485-44c4-abd1-f786e325318b",
+          "update": {
+            "sessionUpdate": "usage_update",
+            "used": 15909,
+            "size": 1000000
+          }
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604670769,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 14,
+        "result": {
+          "stopReason": "end_turn"
+        }
+      }
+    },
+    {
+      "dir": "out",
+      "t": 1795604670987,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 15,
+        "method": "session/prompt",
+        "params": {
+          "sessionId": "f0789b8b-e485-44c4-abd1-f786e325318b",
+          "prompt": [
+            {
+              "type": "text",
+              "text": "调用 bash 工具运行 `sleep 20; echo CONC_DONE`，然后回复结果。"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604672641,
+      "msg": {
+        "jsonrpc": "2.0",
+        "method": "session/update",
+        "params": {
+          "sessionId": "f0789b8b-e485-44c4-abd1-f786e325318b",
+          "update": {
+            "sessionUpdate": "agent_thought_chunk",
+            "messageId": "ce1c7da7-6fa6-44d5-9bf8-4b5f6e8980d6",
+            "content": {
+              "type": "text",
+              "text": "The user wants me to run a 20 second sleep command. Just run it."
+            }
+          }
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604672641,
+      "msg": {
+        "jsonrpc": "2.0",
+        "method": "session/update",
+        "params": {
+          "sessionId": "f0789b8b-e485-44c4-abd1-f786e325318b",
+          "update": {
+            "sessionUpdate": "usage_update",
+            "used": 16036,
+            "size": 1000000
+          }
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604672641,
+      "msg": {
+        "jsonrpc": "2.0",
+        "method": "session/update",
+        "params": {
+          "sessionId": "f0789b8b-e485-44c4-abd1-f786e325318b",
+          "update": {
+            "sessionUpdate": "tool_call",
+            "toolCallId": "call_00_6OYveIL0MlrU8B3n2rmg4217",
+            "title": "bash",
+            "kind": "other",
+            "status": "in_progress",
+            "rawInput": {
+              "command": "sleep 20; echo CONC_DONE",
+              "description": "Sleep 20s then echo",
+              "timeoutMs": 60000
+            }
+          }
+        }
+      }
+    },
+    {
+      "dir": "out",
+      "t": 1795604672641,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 16,
+        "method": "session/prompt",
+        "params": {
+          "sessionId": "f0789b8b-e485-44c4-abd1-f786e325318b",
+          "prompt": [
+            {
+              "type": "text",
+              "text": "第二个并发请求"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604672641,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 16,
+        "error": {
+          "code": -32602,
+          "message": "Invalid params: a prompt is already in flight for this session"
+        }
+      }
+    },
+    {
+      "dir": "out",
+      "t": 1795604672641,
+      "msg": {
+        "jsonrpc": "2.0",
+        "method": "session/cancel",
+        "params": {
+          "sessionId": "f0789b8b-e485-44c4-abd1-f786e325318b"
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604672650,
+      "msg": {
+        "jsonrpc": "2.0",
+        "method": "session/update",
+        "params": {
+          "sessionId": "f0789b8b-e485-44c4-abd1-f786e325318b",
+          "update": {
+            "sessionUpdate": "tool_call_update",
+            "toolCallId": "call_00_6OYveIL0MlrU8B3n2rmg4217",
+            "status": "failed",
+            "content": [
+              {
+                "type": "content",
+                "content": {
+                  "type": "text",
+                  "text": "Error: tool call aborted before dispatch"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604672650,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 15,
+        "result": {
+          "stopReason": "cancelled"
+        }
+      }
+    },
+    {
+      "dir": "out",
+      "t": 1795604672854,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 17,
+        "method": "session/prompt",
+        "params": {
+          "sessionId": "f0789b8b-e485-44c4-abd1-f786e325318b",
+          "prompt": [
+            {
+              "type": "text",
+              "text": "调用 bash 工具运行 `sleep 30; echo SLEPT_DONE`，然后回复结果。不要做别的事。"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604674195,
+      "msg": {
+        "jsonrpc": "2.0",
+        "method": "session/update",
+        "params": {
+          "sessionId": "f0789b8b-e485-44c4-abd1-f786e325318b",
+          "update": {
+            "sessionUpdate": "agent_thought_chunk",
+            "messageId": "61de23ed-3936-4d9d-b0d7-32e16d3b67bd",
+            "content": {
+              "type": "text",
+              "text": "The previous call was aborted before dispatch. Now run the new command. Use timeout > 30s, maybe default. Just run it."
+            }
+          }
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604674195,
+      "msg": {
+        "jsonrpc": "2.0",
+        "method": "session/update",
+        "params": {
+          "sessionId": "f0789b8b-e485-44c4-abd1-f786e325318b",
+          "update": {
+            "sessionUpdate": "usage_update",
+            "used": 16196,
+            "size": 1000000
+          }
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604674195,
+      "msg": {
+        "jsonrpc": "2.0",
+        "method": "session/update",
+        "params": {
+          "sessionId": "f0789b8b-e485-44c4-abd1-f786e325318b",
+          "update": {
+            "sessionUpdate": "tool_call",
+            "toolCallId": "call_00_YYM5VyfCsShvzUmOsTEb3581",
+            "title": "bash",
+            "kind": "other",
+            "status": "in_progress",
+            "rawInput": {
+              "command": "sleep 30; echo SLEPT_DONE",
+              "description": "Sleep 30s then echo",
+              "timeoutMs": 60000
+            }
+          }
+        }
+      }
+    },
+    {
+      "dir": "out",
+      "t": 1795604674195,
+      "msg": {
+        "jsonrpc": "2.0",
+        "method": "session/cancel",
+        "params": {
+          "sessionId": "f0789b8b-e485-44c4-abd1-f786e325318b"
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604674203,
+      "msg": {
+        "jsonrpc": "2.0",
+        "method": "session/update",
+        "params": {
+          "sessionId": "f0789b8b-e485-44c4-abd1-f786e325318b",
+          "update": {
+            "sessionUpdate": "tool_call_update",
+            "toolCallId": "call_00_YYM5VyfCsShvzUmOsTEb3581",
+            "status": "failed",
+            "content": [
+              {
+                "type": "content",
+                "content": {
+                  "type": "text",
+                  "text": "Error: tool call aborted before dispatch"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604674205,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 17,
+        "result": {
+          "stopReason": "cancelled"
+        }
+      }
+    },
+    {
+      "dir": "out",
+      "t": 1795604674422,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 18,
+        "method": "session/does_not_exist",
+        "params": {}
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604674422,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 18,
+        "error": {
+          "code": -32601,
+          "message": "\"Method not found\": session/does_not_exist",
+          "data": {
+            "method": "session/does_not_exist"
+          }
+        }
+      }
+    },
+    {
+      "dir": "out",
+      "t": 1795604674423,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 19,
+        "method": "session/prompt",
+        "params": {
+          "sessionId": "00000000-0000-4000-8000-000000000000",
+          "prompt": [
+            {
+              "type": "text",
+              "text": "x"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604674423,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 19,
+        "error": {
+          "code": -32602,
+          "message": "Invalid params: unknown session: 00000000-0000-4000-8000-000000000000"
+        }
+      }
+    },
+    {
+      "dir": "out",
+      "t": 1795604674423,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 20,
+        "method": "session/set_config_option",
+        "params": {
+          "sessionId": "f0789b8b-e485-44c4-abd1-f786e325318b",
+          "configId": "no_such_option",
+          "value": "x"
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604674423,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 20,
+        "error": {
+          "code": -32602,
+          "message": "Invalid params: unknown session config option: no_such_option"
+        }
+      }
+    },
+    {
+      "dir": "out",
+      "t": 1795604674423,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 21,
+        "method": "session/set_config_option",
+        "params": {
+          "sessionId": "f0789b8b-e485-44c4-abd1-f786e325318b",
+          "configId": "reasoning_effort",
+          "value": "ultra-max"
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604674424,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 21,
+        "error": {
+          "code": -32602,
+          "message": "Invalid params: unknown reasoning effort for deepseek-official/deepseek-v4-flash: ultra-max"
+        }
+      }
+    },
+    {
+      "dir": "out",
+      "t": 1795604674424,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 22,
+        "method": "session/prompt",
+        "params": {
+          "sessionId": "f0789b8b-e485-44c4-abd1-f786e325318b",
+          "prompt": [
+            {
+              "type": "text",
+              "text": "   "
+            }
+          ]
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604674424,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 22,
+        "error": {
+          "code": -32602,
+          "message": "Invalid params: empty prompt"
+        }
+      }
+    },
+    {
+      "dir": "out",
+      "t": 1795604674424,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 23,
+        "method": "session/new",
+        "params": {
+          "cwd": "relative/path",
+          "mcpServers": []
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604674425,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 23,
+        "error": {
+          "code": -32602,
+          "message": "Invalid params: cwd must be an absolute path: relative/path"
+        }
+      }
+    },
+    {
+      "dir": "out",
+      "t": 1795604674425,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 24,
+        "method": "session/new",
+        "params": {
+          "cwd": "/Users/dojo/t3code-dsh-native/tests",
+          "mcpServers": [],
+          "additionalDirectories": [
+            "/Users/dojo/t3code-dsh-native/tests"
+          ]
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604674425,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 24,
+        "error": {
+          "code": -32602,
+          "message": "Invalid params: additionalDirectories is not supported"
+        }
+      }
+    },
+    {
+      "dir": "out",
+      "t": 1795604674425,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 25,
+        "method": "session/new",
+        "params": {
+          "cwd": "/Users/dojo/t3code-dsh-native/tests",
+          "mcpServers": [
+            {
+              "type": "sse",
+              "name": "bad",
+              "url": "ftp://x",
+              "headers": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604674449,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 25,
+        "error": {
+          "code": -32602,
+          "message": "Invalid params: mcpServers[0] transport sse is not supported"
+        }
+      }
+    },
+    {
+      "dir": "out",
+      "t": 1795604674449,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 26,
+        "method": "session/prompt",
+        "params": {
+          "sessionId": "f0789b8b-e485-44c4-abd1-f786e325318b",
+          "prompt": [
+            {
+              "type": "image",
+              "mimeType": "image/png",
+              "data": "iVBORw0KGgo="
+            }
+          ]
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604674450,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 26,
+        "error": {
+          "code": -32602,
+          "message": "Invalid params: inline image prompts were not advertised by this connection"
+        }
+      }
+    },
+    {
+      "dir": "out",
+      "t": 1795604674450,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 27,
+        "method": "session/close",
+        "params": {
+          "sessionId": "00000000-0000-4000-8000-000000000000"
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604674450,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 27,
+        "error": {
+          "code": -32602,
+          "message": "Invalid params: unknown session: 00000000-0000-4000-8000-000000000000"
+        }
+      }
+    },
+    {
+      "dir": "out",
+      "t": 1795604674450,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 28,
+        "method": "session/list",
+        "params": {
+          "cwd": "/Users/dojo/t3code-dsh-native/tests",
+          "cursor": "!!not-base64!!"
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604674450,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 28,
+        "error": {
+          "code": -32602,
+          "message": "Invalid params: session/list cursor is invalid"
+        }
+      }
+    },
+    {
+      "dir": "out",
+      "t": 1795604674450,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 29,
+        "method": "session/resume",
+        "params": {
+          "sessionId": "00000000-0000-4000-8000-000000000000",
+          "cwd": "/Users/dojo/t3code-dsh-native/tests",
+          "mcpServers": []
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604674452,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 29,
+        "error": {
+          "code": -32602,
+          "message": "Invalid params: session is not resumable: 00000000-0000-4000-8000-000000000000"
+        }
+      }
+    },
+    {
+      "dir": "out",
+      "t": 1795604674452,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 30,
+        "method": "session/new",
+        "params": {
+          "cwd": "/Users/dojo/t3code-dsh-native/tests"
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604674452,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 30,
+        "error": {
+          "code": -32602,
+          "message": "Invalid params",
+          "data": {
+            "_errors": [],
+            "mcpServers": {
+              "_errors": [
+                "Required value is missing"
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "dir": "out",
+      "t": 1795604674452,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 31,
+        "method": "session/new",
+        "params": {
+          "mcpServers": []
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604674452,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 31,
+        "error": {
+          "code": -32602,
+          "message": "Invalid params",
+          "data": {
+            "_errors": [],
+            "cwd": {
+              "_errors": [
+                "Invalid input: expected string, received undefined"
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "dir": "out",
+      "t": 1795604674452,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 32,
+        "method": "session/resume",
+        "params": {
+          "sessionId": "f0789b8b-e485-44c4-abd1-f786e325318b",
+          "mcpServers": []
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604674452,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 32,
+        "error": {
+          "code": -32602,
+          "message": "Invalid params",
+          "data": {
+            "_errors": [],
+            "cwd": {
+              "_errors": [
+                "Invalid input: expected string, received undefined"
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "dir": "out",
+      "t": 1795604674453,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 33,
+        "method": "session/close",
+        "params": {
+          "sessionId": "f0789b8b-e485-44c4-abd1-f786e325318b"
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604674453,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 33,
+        "result": {}
+      }
+    },
+    {
+      "dir": "out",
+      "t": 1795604674453,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 34,
+        "method": "session/list",
+        "params": {
+          "cwd": "/Users/dojo/t3code-dsh-native/tests"
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604674475,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 34,
+        "result": {
+          "sessions": [
+            {
+              "sessionId": "9115f79c-d82e-4882-89a8-af4848039c7f",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "c7782f4e-fb02-4352-9d67-9905836f3c58",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "6ee1ff1e-8247-4c79-8fc3-41e9601c5aad",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "daa11e26-034d-4ba2-99d6-04d5f69fbd09",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "f0789b8b-e485-44c4-abd1-f786e325318b",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "9e83e1af-7ddb-487f-bf27-f881bd678c05",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "627dc551-8cdc-42c3-84e4-7b41e7069a4a",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "ab7c852e-b984-423e-acf3-3b50a842c6f7",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "d5b2ff7c-cf59-46b4-a1cb-fb2abcac0ff1",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "26edb4d7-85b8-49a1-a8de-54610eb1423f",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "d56c191e-9f49-448c-86c6-880ccbbaa147",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "eaa82bb6-aa33-44a7-9290-069893228aeb",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "f2ec9e9f-d249-4a85-b565-a115c56fde7f",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "f191cc54-bd09-4559-a2af-514172f88a0a",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "618ebef5-a6b0-4138-a32d-a22c50945f23",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "46577eca-18be-445b-8545-db640c2a2da8",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "82a02ba6-86e3-4ff0-b940-6019613de7c4",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "3335e4f1-80e3-49a0-bb06-c9d31d94f102",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "c1c43239-e752-49d2-bb68-419631b958f2",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "8727df7a-c382-4f05-96de-d1b3f5b0d4df",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "09b195b3-619a-416b-a955-01a1d687ab9f",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "26c657eb-dbfc-4945-9fb1-06121542741e",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "d170e87a-9187-43a5-a685-c139c0034139",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "f1c98fef-b26d-4d06-a7ef-5ccad03aeb57",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "d8f650ee-0bde-4ee9-9bc6-4779a416afb5",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "364e3ef6-a2c9-4360-80de-377ebefa4b28",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "63743f05-76ee-4ef8-9ea8-6ddcb124c886",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "98f9829c-e1a3-4abb-851f-413a8df93d16",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "f65d1f42-efa9-4646-980d-dacb00df4f2f",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "e2cfe967-feb8-4198-bb55-18a54aa06741",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "c46b9430-ff92-4c54-81d4-fa21ad9c7b8c",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "f3e319d8-c404-4224-94b5-1920f5686860",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "964907cb-f03a-4fd0-ace9-9c4ed3f0c897",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "859552f0-2c30-48e1-a067-84a1c30b5d65",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "a551ccf0-acb1-4ca7-916f-fc9ea0e12764",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "661ec4af-e03f-40e3-b8b7-1cbed52bd344",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "2c77d885-8bee-46b8-87c6-642c8809846f",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "40ebff96-d4d5-42ba-9415-791c240807e0",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "c91109f7-c575-4c38-8918-6374184c86bb",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "85914be9-b18e-4200-9691-c01d298dcd29",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "8e6d9192-8299-4dc5-9955-1bfd46f1ed3f",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "d5ecf675-e92c-4d7c-b870-c93eb578ef90",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "a7944572-572a-4e5f-aa53-2162a68344a3",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "c12fa3bc-6fc7-4a03-9233-fb6803b1816e",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "6b0766e0-e54a-472a-a129-17b9cb26fa79",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "3ff0ea62-650e-4f37-9557-946017bf4894",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "ecb8fa41-1206-4465-bd6b-4162777dd5cf",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "2fe346cf-a9f7-4bcd-8eeb-64d72ca721b0",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "f1177ba9-ad8c-4757-8324-5afd58ba22bf",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "7a8cb7f2-cd64-46b7-a03d-a104a941a6f1",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "6dd2a2b6-cf80-467a-adf8-0f4c9fb0ed20",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "1cae6b3b-26bc-48a1-a014-12d36fe44bce",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "756eae48-23ad-4eca-b09f-f55420110580",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "77f1a1d1-2e70-4594-af58-c6b873b81076",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "ea70ca86-50c5-4e20-b29c-fb3e1d30af35",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "12988b4d-1aac-49a9-8949-9510c1069eec",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "6fd3081c-8139-450c-bc93-10a164e9e5a2",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "25edab83-2bcf-476c-b754-99ec014d199a",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "866c8367-0703-464e-96bf-4e5942220a6d",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "610468d6-39d9-4441-83a0-4258ce265ff3",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "8202b75d-2328-41bd-9c44-efacd3afb4e5",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "59e6cc13-209e-4464-bc75-29bedbce5ad6",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "432595c1-08b6-4ba9-b181-cb74e9ca6d63",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "362caef9-7a49-45f6-8408-9e6a9c00d54f",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "ca7f66e6-ee4d-4847-8a4e-44a3836ff5dd",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "898ec2c9-68ad-4f39-a411-69af0595ed7a",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "014fee4c-ed7c-47eb-b7e4-f1410524c0e1",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "63742bd5-4d5f-40a8-94fb-30989c3696a5",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "2ce8d7fd-de34-4388-9651-434f592f6e4b",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "f3398665-739a-43d9-8a27-efd4b085308c",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "e11b06d2-b97a-4dae-8d78-78503093e76b",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "951c958e-5924-4007-878e-0dd3f7a03f48",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "e7eeb7af-3384-4dda-b00c-36fedef09dfa",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "9d4e982d-683c-4e1c-a3da-d3d600d2de85",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "35ed9d51-6015-4038-a882-c3aba08d54b7",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "bda21c89-7391-4462-b2b0-19f351b0ecdc",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "42225501-4598-4860-b07e-72b06d74c22a",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "cc41eab8-30ab-447e-8c10-f8d45f31305b",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "1f128459-2e18-4014-9b3c-66485206d4b4",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "3967f4fc-67d3-4d50-9605-5feffbf7d12a",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "6eae7f75-fbe2-4ec5-8626-afa6e17fc907",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "89e7d4f3-fdaa-4ac5-a1bc-58bdb4d5e0be",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "f670dd53-c995-40da-99e0-c24e3f6a4766",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "e60292c8-97f4-4629-b896-8e081046fed1",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "34f37b15-74fc-4642-bdef-43185557064b",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "c37f73f4-7bac-498c-a79e-778155f5f83a",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "872a1a25-e4f6-4058-b4df-e9a5d02bfcae",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "85d37780-6118-42c1-989c-e4f05113bc16",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "b378dc56-b162-42f1-8ebf-c3769fdcb136",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "522576b1-fce4-46d4-98c2-e2e1702ffb17",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "5d260728-9641-4383-a782-e93f6e8ad78a",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            },
+            {
+              "sessionId": "40744638-8fbb-44e0-a2df-184a308a9c70",
+              "cwd": "/Users/dojo/t3code-dsh-native/tests"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "dir": "out",
+      "t": 1795604676045,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 35,
+        "method": "session/resume",
+        "params": {
+          "sessionId": "f0789b8b-e485-44c4-abd1-f786e325318b",
+          "cwd": "/Users/dojo/t3code-dsh-native/tests",
+          "mcpServers": []
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604676056,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 35,
+        "result": {
+          "configOptions": [
+            {
+              "id": "model",
+              "name": "Model",
+              "category": "model",
+              "type": "select",
+              "currentValue": "[\"deepseek-official\",\"deepseek-v4-flash\"]",
+              "options": [
+                {
+                  "group": "deepseek-official",
+                  "name": "DeepSeek",
+                  "options": [
+                    {
+                      "value": "[\"deepseek-official\",\"deepseek-v4-flash\"]",
+                      "name": "deepseek-v4-flash"
+                    },
+                    {
+                      "value": "[\"deepseek-official\",\"deepseek-flash\"]",
+                      "name": "DeepSeek-V4.1-Flash"
+                    },
+                    {
+                      "value": "[\"deepseek-official\",\"deepseek-v4-pro\"]",
+                      "name": "DeepSeek-V4-Pro",
+                      "description": "Stronger agentic coding, knowledge, and difficult reasoning; suited to complex or quality-critical tasks at higher cost."
+                    }
+                  ]
+                },
+                {
+                  "group": "deepseek-account",
+                  "name": "DeepSeek Account",
+                  "options": [
+                    {
+                      "value": "[\"deepseek-account\",\"deepseek-flash\"]",
+                      "name": "DeepSeek-V4.1-Flash"
+                    },
+                    {
+                      "value": "[\"deepseek-account\",\"deepseek-v4-pro\"]",
+                      "name": "DeepSeek-V4-Pro",
+                      "description": "Stronger agentic coding, knowledge, and difficult reasoning; suited to complex or quality-critical tasks at higher cost."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "reasoning_effort",
+              "name": "Reasoning effort",
+              "category": "thought_level",
+              "type": "select",
+              "currentValue": "low",
+              "options": [
+                {
+                  "value": "off",
+                  "name": "Off",
+                  "description": "Use for simple tasks that do not need reasoning."
+                },
+                {
+                  "value": "low",
+                  "name": "Low",
+                  "description": "Prefer for routine or latency-sensitive tasks."
+                },
+                {
+                  "value": "high",
+                  "name": "High",
+                  "description": "The default balance for most tasks."
+                },
+                {
+                  "value": "max",
+                  "name": "Max",
+                  "description": "Reserve for the hardest quality-first tasks."
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "dir": "out",
+      "t": 1795604676056,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 36,
+        "method": "session/prompt",
+        "params": {
+          "sessionId": "f0789b8b-e485-44c4-abd1-f786e325318b",
+          "prompt": [
+            {
+              "type": "text",
+              "text": "回顾本会话此前的对话：我给你下达过哪些用 bash 执行的命令？只列出命令字符串本身，每行一个，不要解释。"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604677085,
+      "msg": {
+        "jsonrpc": "2.0",
+        "method": "session/update",
+        "params": {
+          "sessionId": "f0789b8b-e485-44c4-abd1-f786e325318b",
+          "update": {
+            "sessionUpdate": "agent_thought_chunk",
+            "messageId": "dcc43946-03e0-405b-9624-b7e1567a73fa",
+            "content": {
+              "type": "text",
+              "text": "The user asks: what bash commands have I issued in this session? List command strings only, one per line.\n\nCommands: `echo DSH_ACP_OK`, `sleep 20; echo CONC_DONE`, `sleep 30; echo SLEPT_DONE`.\n\nNo tool needed. Answer directly."
+            }
+          }
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604677085,
+      "msg": {
+        "jsonrpc": "2.0",
+        "method": "session/update",
+        "params": {
+          "sessionId": "f0789b8b-e485-44c4-abd1-f786e325318b",
+          "update": {
+            "sessionUpdate": "agent_message_chunk",
+            "messageId": "dcc43946-03e0-405b-9624-b7e1567a73fa",
+            "content": {
+              "type": "text",
+              "text": "echo DSH_ACP_OK\nsleep 20; echo CONC_DONE\nsleep 30; echo SLEPT_DONE"
+            }
+          }
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604677085,
+      "msg": {
+        "jsonrpc": "2.0",
+        "method": "session/update",
+        "params": {
+          "sessionId": "f0789b8b-e485-44c4-abd1-f786e325318b",
+          "update": {
+            "sessionUpdate": "usage_update",
+            "used": 16335,
+            "size": 1000000
+          }
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604677085,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 36,
+        "result": {
+          "stopReason": "end_turn"
+        }
+      }
+    },
+    {
+      "dir": "out",
+      "t": 1795604677301,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 37,
+        "method": "session/close",
+        "params": {
+          "sessionId": "f0789b8b-e485-44c4-abd1-f786e325318b"
+        }
+      }
+    },
+    {
+      "dir": "in",
+      "t": 1795604677302,
+      "msg": {
+        "jsonrpc": "2.0",
+        "id": 37,
+        "result": {}
+      }
+    }
+  ],
+  "stderrTail": "[llm-deepseek-api-key] model listing from https://api.deepseek.com/models loaded 2 model(s), skipped 0 row(s)\n[llm-deepseek-account] model listing from https://api.deepseek.com/models loaded 2 model(s), skipped 0 row(s)\n"
+}
